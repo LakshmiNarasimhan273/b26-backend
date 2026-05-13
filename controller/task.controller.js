@@ -19,7 +19,7 @@ const createTask = async (req, res) => {
 // GET ALL TASKS
 const getUserTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({
+        const tasks = await taskModel.find({
             user: req.userId,
         }).sort({ createdAt: -1 });
 
@@ -37,7 +37,7 @@ const updateTask = async (req, res) => {
         const { id } = req.params;
 
         // Find task belongs to logged user
-        const task = await Task.findOne({
+        const task = await taskModel.findOne({
             _id: id,
             user: req.userId,
         });
@@ -48,7 +48,7 @@ const updateTask = async (req, res) => {
             });
         }
 
-        const updatedTask = await Task.findByIdAndUpdate(
+        const updatedTask = await taskModel.findByIdAndUpdate(
             id,
             req.body,
             { new: true }
@@ -69,7 +69,7 @@ const deleteTask = async (req, res) => {
         const { id } = req.params;
 
         // Check ownership
-        const task = await Task.findOne({
+        const task = await taskModel.findOne({
             _id: id,
             user: req.userId,
         });
@@ -80,7 +80,7 @@ const deleteTask = async (req, res) => {
             });
         }
 
-        await Task.findByIdAndDelete(id);
+        await taskModel.findByIdAndDelete(id);
 
         res.status(200).json({
             message: "Task deleted successfully",
