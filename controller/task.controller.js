@@ -6,12 +6,13 @@ const createTask = async (req, res) => {
         const { title, description, status } = req.body;
 
         const task = await taskModel.create({
-            title, description, status, user: req.user
+            title, description, status, user: req.userId
         });
 
         res.status(201).json(task);
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
@@ -20,11 +21,11 @@ const createTask = async (req, res) => {
 const getUserTasks = async (req, res) => {
     try {
         const tasks = await taskModel.find({
-            user: req.userId,
+            user: req.userId,   
         }).sort({ createdAt: -1 });
 
         res.status(200).json({
-            tasks,
+           tasks: tasks,
         });
     } catch (err) {
         res.status(500).json({ message: "Internal Server Error" });

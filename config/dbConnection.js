@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const dbConnection = async () => {
     try{
-        await mongoose.connect(process.env.compassurl);
+        await mongoose.connect(process.env.atlasurl);
         console.log("Database Connected");
     }catch(err){
         console.log(err);
